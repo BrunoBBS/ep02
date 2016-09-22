@@ -4,10 +4,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int **tab; 
-int podeMover(pos buraco, int ultDir)
+int **tab;
+int podeMover(pos buraco, int ultdDir)
 {
-    if ();
+    
 }
 
 pos procuraBuraco(int **tab, pos ultBur, int l, int c)
@@ -31,6 +31,8 @@ int main()
 {
     int c, l, i, j, dir;
     pos aux;
+    pilha *p;
+
     scanf("%d %d", &c, &l);
     tab = criaMatriz(l, c);
     for (i = 0; i < l; i++)
@@ -43,6 +45,7 @@ int main()
     {
         printf("Impossivel\n");
     }
+    p = criaPilha((l * c)/2);
     dir = podeMover(aux,0);
 }
 
