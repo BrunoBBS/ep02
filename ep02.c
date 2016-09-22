@@ -5,7 +5,7 @@
 #include <stdlib.h>
 
 int **tab; 
-int podeMover(movimento *mov)
+int podeMover(pos buraco, int ultDir)
 {
     if ();
 }
@@ -20,12 +20,16 @@ pos procuraBuraco(int **tab, pos ultBur, int l, int c)
             {
                 ret.l = i;
                 ret.c = j;
+                return ret; 
             }
+    ret.l = -1;
+    ret.c = -1;
+    return ret;
 }
 
 int main()
 {
-    int c, l, i, j;
+    int c, l, i, j, dir;
     pos aux;
     scanf("%d %d", &c, &l);
     tab = criaMatriz(l, c);
@@ -37,8 +41,9 @@ int main()
     aux = procuraBuraco(tab, aux, l, c);
     if (aux.l == -1 && aux.c == -1)
     {
-
+        printf("Impossivel\n");
     }
+    dir = podeMover(aux,0);
 }
 
 

@@ -1,7 +1,7 @@
 CC:=gcc
 FLAGS:=-Wall -ansi -pedantic -O2
 
-ep2: ep2.o matriz.o pilha.o
+ep02: ep02.o matriz.o pilha.o
 	$(CC) $(FLAGS) -o $@ $^
 
 # General formulas ()
