@@ -11,7 +11,7 @@ struct pos_s{
 };
 
 struct movimento_s {
-    int pos;
+    pos pos;
     int dir;
 };
 

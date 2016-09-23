@@ -76,31 +76,62 @@ pos procuraBuraco(int **tab, pos ultBur, int l, int c)
 
 int main()
 {
-    int c, l, i, j, dir;
-    int **tab;
-    pos posicao;
+    int c, l, i, j, aux, acabou;
+    int **tab, **final;
     pilha *p;
+    movimento mov;
+    mov.pos.l = 0;
+    mov.pos.c = -1;
+    p = criaPilha((l * c)/2);
+    mov.dir = -1;
 
-    scanf("%d %d", &c, &l);
+    aux = scanf("%d %d", &c, &l);
     tab = criaMatriz(l, c);
     for (i = 0; i < l; i++)
         for (j = 0; j < c; j++)
+        {
             scanf("%d", &tab[i][j]);
-    posicao.l = 0;
-    posicao.c = -1;
-    posicao = procuraBuraco(tab, posicao, l, c);
-    if (posicao.l == -1 && posicao.c == -1)
+            final[i][j] = -(tab[i][j]);
+        }
+    while(!acabou)
     {
-        printf("Impossivel\n");
+        for (i = 0; i < l; i++)
+        {
+            for (j = 0; j < c; j++)
+                printf("%d\t",tab[i][j]);
+            printf("\n");
+        }
+        mov.pos = procuraBuraco(tab, mov.pos, l, c);
+        if (mov.pos.l == -1 && mov.pos.c == -1) 
+        {
+            /*Nao achou um buraco*/
+            printf("Impossivel\n");
+            return 0;
+        }
+        mov.dir = podeMover(tab, mov.pos, mov.dir, l, c);
+        if (mov.dir <= 3 && mov.dir >= 0)
+        {
+            empilha(p, mov);
+            move(tab, mov.pos, mov.dir);
+        }
+        else
+        {
+            /*~~BACKTRACK~~*/
+            if (pilhaVazia(*p))
+            {
+                /*Nao tem decisao para voltar atras*/
+                printf("Impossivel\n");
+                return 0;
+            }
+            mov = desempilha(p);
+        }
+        acabou = 1;
+        /*Verifica se ja chegou no fim*/
+        for (i = 0; i < l; i++)
+            for (j = 0; j < c; j++)
+                if (tab[i][j] != final[i][j])
+                    acabou = 0;
     }
-    p = criaPilha((l * c)/2);
-    dir = podeMover(tab, posicao, -1, l, c);
-    if (dir < 0)
-    {
-        /*~~BACKTRACK~~*/
-    }
-    move(tab, posicao, dir);
-
 }
 
 
