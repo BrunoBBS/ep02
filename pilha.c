@@ -39,17 +39,6 @@ void empilha(pilha *p, movimento x)
     p -> topo ++;
 }
 
-
-int **criaMatriz(int l, int c)
-{
-    int **m;
-    int i;
-    m = malloc(l * sizeof(int *));
-    for (i = 0; i < l; i++)
-        m[i] = malloc(c * sizeof(int));
-    return m;
-}
-
 movimento desempilha(pilha *p)
 {
     movimento mov =  p -> v[p -> topo];
