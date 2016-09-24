@@ -56,10 +56,10 @@ void empilha(pilha *p, movimento x)
 movimento desempilha(pilha *p)
 {
     movimento mov;
+    p -> topo -= 1;
     mov.pos.l =  p -> l[p -> topo];
     mov.pos.c =  p -> c[p -> topo];
     mov.dir =  p -> d[p -> topo];
-    p -> topo -= 1;
     return mov; 
 }
 
