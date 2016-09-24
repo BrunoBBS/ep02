@@ -16,7 +16,9 @@ struct movimento_s {
 };
 
 struct pilha_s {
-    movimento *v;
+    int *l;
+    int *c;
+    int *d;
     int topo;
     int max;
 };

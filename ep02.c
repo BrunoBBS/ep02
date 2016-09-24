@@ -14,13 +14,17 @@ int podeMover(int **tab, pos buraco, int ultdDir, int m, int n)
     ultdDir += 1;
     switch (ultdDir)
     {
-        case 0: if (buraco.l > 2 && (tab[buraco.l - 2][buraco.c]) == 1 && tab[buraco.l - 1][buraco.c] == 1)
+        case 0: if (buraco.l > 2 && (tab[buraco.l - 2][buraco.c]) == 1 
+                    && tab[buraco.l - 1][buraco.c] == 1)
                     return 0;
-        case 1: if (buraco.c < (n-2) && (tab[buraco.l][buraco.c + 2]) == 1 && tab[buraco.l][buraco.c + 1] == 1)
+        case 1: if (buraco.c < (n-2) && (tab[buraco.l][buraco.c + 2]) == 1 
+                    && tab[buraco.l][buraco.c + 1] == 1)
                     return 1;
-        case 2: if (buraco.l < (m-2) && (tab[buraco.l + 2][buraco.c]) == 1 && tab[buraco.l + 1][buraco.c] == 1)
+        case 2: if (buraco.l < (m-2) && (tab[buraco.l + 2][buraco.c]) == 1 
+                    && tab[buraco.l + 1][buraco.c] == 1)
                     return 2;
-        case 3: if (buraco.c > 2 && (tab[buraco.l][buraco.c - 2]) == 1 && tab[buraco.l][buraco.c - 2] == 1)
+        case 3: if (buraco.c > 2 && (tab[buraco.l][buraco.c - 2]) == 1 
+                    && tab[buraco.l][buraco.c - 2] == 1)
                     return 3;
         default: return -1;
     }
@@ -52,26 +56,27 @@ void move(int **tab, pos buraco, int dir)
     }
 }
 
+ /*A funcao recebe o tabulero como uma matriz, a posicao do antigo buraco e a
+  * direcao da qual foi feita  a jogada e desfaz o movimento.*/
 void desmove(int **tab, pos buraco, int dir)
 {
-    /*tem q terminar isso*/
     switch(dir)
     {
-        case 0: tab[buraco.l][buraco.c] = 1; 
-                tab[buraco.l - 2][buraco.c] = -1;
-                tab[buraco.l - 1][buraco.c] = -1;
+        case 0: tab[buraco.l][buraco.c] = -1; 
+                tab[buraco.l - 2][buraco.c] = 1;
+                tab[buraco.l - 1][buraco.c] = 1;
                 break;
-        case 1: tab[buraco.l][buraco.c] = 1; 
-                tab[buraco.l][buraco.c + 2] = -1;
-                tab[buraco.l][buraco.c + 1] = -1;
+        case 1: tab[buraco.l][buraco.c] = -1; 
+                tab[buraco.l][buraco.c + 2] = 1;
+                tab[buraco.l][buraco.c + 1] = 1;
                 break;
-        case 2: tab[buraco.l][buraco.c] = 1; 
-                tab[buraco.l + 2][buraco.c] = -1;
-                tab[buraco.l + 1][buraco.c] = -1;
+        case 2: tab[buraco.l][buraco.c] = -1; 
+                tab[buraco.l + 2][buraco.c] = 1;
+                tab[buraco.l + 1][buraco.c] = 1;
                 break;
-        case 3: tab[buraco.l][buraco.c] = 1; 
-                tab[buraco.l][buraco.c - 2] = -1;
-                tab[buraco.l][buraco.c - 1] = -1;
+        case 3: tab[buraco.l][buraco.c] = -1; 
+                tab[buraco.l][buraco.c - 2] = 1;
+                tab[buraco.l][buraco.c - 1] = 1;
                 break;
     }
 }
@@ -85,7 +90,7 @@ pos procuraBuraco(int **tab, pos ultBur, int l, int c)
 {
     int i, j;
     pos ret;
-    printf("entrou no buraco %d %d  kkk\n", ultBur.l, (ultBur.c + 1));
+    printf("entrou no %d %d pra procurar buraco\n", ultBur.l, (ultBur.c + 1));
     for (i = ultBur.l; i < l; i++)
     {
         for (j = (ultBur.c + 1); j < c; j++)
@@ -93,7 +98,7 @@ pos procuraBuraco(int **tab, pos ultBur, int l, int c)
             printf("i = %d j = %d valor = %d \n",i,j,tab[i][j]);
             if (tab[i][j] == -1)
             {
-                printf("achou o buraco lol\n");
+                printf("achou o buraco\n");
                 ret.l = i;
                 ret.c = j;
                 return ret; 
@@ -111,9 +116,11 @@ int main()
     int **tab, **final;
     pilha *p;
     movimento mov;
-    p = criaPilha((l * c)/15);
     mov.dir = -1;
     aux = scanf("%d %d", &c, &l);
+    p = criaPilha((l * c));
+    if (p -> v == NULL)
+        printf("Faltou MEMORia");
     tab = criaMatriz(l, c);
     final = criaMatriz(l, c);
 
@@ -125,6 +132,7 @@ int main()
         }
 
     printf("Pegou as variaveis\n");
+    printf("%d\n",(l * c));
     while(!acabou)
     {
         printf("comecou o loop\n");
@@ -142,7 +150,7 @@ int main()
         }
 
         mov.pos = procuraBuraco(tab, mov.pos, l, c);
-        printf("procurou buraco\n");
+        printf("ja procurou buraco\n");
         if (mov.pos.l == -1 && mov.pos.c == -1) 
         {
             /*Nao achou um buraco*/
@@ -156,22 +164,23 @@ int main()
         {
             empilha(p, mov);
             move(tab, mov.pos, mov.dir);
-            printf("moveu! %d \n", p -> topo);
+            printf("moveu! e empilhou na pos %d \n", (p -> topo) - 1);
             OK = 1;
         }
 
         else
         {
             printf("BACKTRACK \n");
-            /*~~BACKTRACK~~*/
-            /*if (pilhaVazia(*p))
+            /*~~BACKTRACK~~
+            if (pilhaVazia(*p))
             {
-                *Nao tem decisao para voltar atras*
+                Nao tem decisao para voltar atras*
                 printf("Impossivel\n");
                 return 0;
-            }*/
-
+            }
+            */
             mov = desempilha(p);
+            printf("desempilhou");
             desmove(tab, mov.pos, mov.dir);
             OK = 0;
         }
