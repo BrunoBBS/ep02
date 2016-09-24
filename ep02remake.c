@@ -26,7 +26,7 @@ int podeMover(int **tab, pos buraco, int ultdDir, int m, int n)
         case 3: if (buraco.c > 2 && (tab[buraco.l][buraco.c - 2]) == 1 
                     && tab[buraco.l][buraco.c - 2] == 1)
                     return 3;
-        default: return -1;
+        default: return 4;
     }
 }
 
@@ -110,17 +110,15 @@ pos procuraBuraco(int **tab, pos ultBur, int l, int c)
     return ret;
 }
 
+
 int main()
 {
-    int c, l, i, j, aux, acabou, OK = 1;
+    int c, l, i, j;
     int **tab, **final;
     pilha *p;
     movimento mov;
-    mov.dir = -1;
-    aux = scanf("%d %d", &c, &l);
+    scanf("%d %d", &c, &l);
     p = criaPilha((l * c));
-    if (p -> v == NULL)
-        printf("Faltou MEMORia");
     tab = criaMatriz(l, c);
     final = criaMatriz(l, c);
 
@@ -131,69 +129,16 @@ int main()
             final[i][j] = -(tab[i][j]);
         }
 
-    printf("Pegou as variaveis\n");
-    printf("%d\n",(l * c));
-    while(!acabou)
-    {
-        printf("comecou o loop\n");
-        for (i = 0; i < l; i++)
-        {
-            for (j = 0; j < c; j++)
-                printf("%d\t",tab[i][j]);
-            printf("\n");
-        }
+    mov.dir = -1;
 
-        if (OK == 1)
-        {
-            mov.pos.c = -1;
-            mov.pos.l = 0;
-        }
+    do
+    { 
+        mov.pos = procuraBuraco(tab, mov.pos, l, c);
+        if (mov.pos.l != -1)
+            break;
+        mov.dir = podeMover(tab, mov.pos, mov.dir, l, c);
+        if (mov.dir == 4)
+            break;
 
-        do
-        {
-            mov.pos = procuraBuraco(tab, mov.pos, l, c);
-            if (!(mov.pos.l == -1 && mov.pos.c == -1))
-            { 
-                do
-                {
-                    mov.dir = podeMover(tab, mov.pos, mov.dir, l, c);
-                } while (mov.dir < 4);
-            }
-        } while (!(mov.pos.l == -1 && mov.pos.c == -1));
-        
-        
-        /*Nao achou um buraco*/
-        printf("Impossivel\n");
-        return 0;
-            empilha(p, mov);
-            move(tab, mov.pos, mov.dir);
-            printf("moveu! e empilhou na pos %d \n", (p -> topo) - 1);
-            OK = 1;
-
-        
-        {
-            printf("BACKTRACK \n");
-            /*~~BACKTRACK~~
-            if (pilhaVazia(*p))
-            {
-                Nao tem decisao para voltar atras*
-                printf("Impossivel\n");
-                return 0;
-            }
-            */
-            mov = desempilha(p);
-            printf("desempilhou");
-            desmove(tab, mov.pos, mov.dir);
-            OK = 0;
-        }
-
-        acabou = 1;
-        /*Verifica se ja chegou no fim*/
-        for (i = 0; i < l; i++)
-            for (j = 0; j < c; j++)
-                if (tab[i][j] != final[i][j])
-                    acabou = 0;
-    }
+    } while(mov.pos.l != -1 && mov.pos.c != -1);
 }
-
-
