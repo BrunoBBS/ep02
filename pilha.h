@@ -3,7 +3,7 @@
 #define PILHA_H
 
 
-int pilhaVazia(pilha p);
+int pilhaVazia(pilha *p);
 
 pilha *criaPilha(int max);
 

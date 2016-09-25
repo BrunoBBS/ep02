@@ -179,18 +179,21 @@ int main()
         mov.dir = -1;
         if (mov.pos.l == -1)
         {
-            printf("Voltando no tempo...\n");
+            printf("topo : %d \n", p -> topo);
             /*~~BACKTRACK~~*/
-            if (pilhaVazia(*p) > 0)
+            if (pilhaVazia(p) > 0)
             {
-            printf("topo : %d", p -> topo);
-            mov = desempilha(p);
-            printf("desempilhou %d %d %d", mov.pos.l, mov.pos.c, mov.dir);
-            desmove(tab, mov.pos, mov.dir);
-            }
-            else
-            {
-                printf("merda");       
+                printf("desempilhou\n");
+
+                p -> topo = (p -> topo) - 1;
+                printf("tiriu o tpioskdp\n");
+                mov.dir = p -> d[p -> topo];
+                printf("tiriu o tpioskdp\n");
+                mov.pos.l = p -> l[p -> topo];
+                printf("tiriu o tpioskdp\n");
+                mov.pos.c = p -> c[p -> topo];
+                printf("tiriu o tpioskdp\n");
+                desmove(tab, mov.pos, mov.dir);
             }
         }
                 

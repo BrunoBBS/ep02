@@ -4,9 +4,10 @@
 #include <stdlib.h>
 
 
-int pilhaVazia(pilha  p)
+int pilhaVazia(pilha  *p)
 {
-    return p.topo;
+    printf("pilhavaxia");
+    return p -> topo;
 }
 
 pilha *criaPilha(int max)
