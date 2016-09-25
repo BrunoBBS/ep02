@@ -11,7 +11,7 @@ void realocaPilha(pilha *p);
 
 void empilha(pilha *p, movimento x);
 
-movimento desempilha();
+movimento desempilha(pilha *p);
 
 void destroiPilha(pilha *p);
 
