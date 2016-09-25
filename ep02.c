@@ -156,14 +156,14 @@ int main()
 
     do
     { 
-        /*printf("Imprimindo tabuleiro...\n");
+        printf("Imprimindo tabuleiro...\n");
         for (i = 0; i < l; i++)
         {
             for (j = 0; j < c; j++)
                 printf("%d\t",tab[i][j]);
             printf("\n");
         }
-        */
+        
         printf("Checando se acabou...\n");
         acabou = 1;
         for (i = 0; i < l && acabou == 1; i++)
@@ -176,21 +176,24 @@ int main()
 
         printf("Procurando buraco...\n");
         mov.pos = procuraBuraco(tab, mov.pos, l, c);
+        mov.dir = -1;
         if (mov.pos.l == -1)
         {
             printf("Voltando no tempo...\n");
             /*~~BACKTRACK~~*/
             if (pilhaVazia(*p) > 0)
             {
-            desmove(tab, mov.pos, mov.dir);
+            printf("topo : %d", p -> topo);
             mov = desempilha(p);
             printf("desempilhou %d %d %d", mov.pos.l, mov.pos.c, mov.dir);
+            desmove(tab, mov.pos, mov.dir);
             }
             else
-                break;
+            {
+                printf("merda");       
+            }
         }
-        
-        mov.dir = -1;
+                
         printf("Procurando direcao...\n");
         mov.dir = podeMover(tab, mov.pos, mov.dir, l, c);
 
