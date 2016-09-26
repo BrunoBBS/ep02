@@ -11,9 +11,12 @@
  * nao haja movimenos possiveis).*/
 int podeMover(int **tab, pos peca, int ultdDir, int m, int n)
 {
+    /*Soma um para nao repetir a ultima jogada.*/
     ultdDir += 1;
     switch (ultdDir)
     {
+        /*O switch serve para comeacr a partir de uma das direcoes e testar as
+         * outras caso a primeira nao sirva.*/
         case 0: 
             if (peca.c > 2 && (tab[peca.l][peca.c - 2]) == -1 
                     && tab[peca.l][peca.c - 1] == 1)
@@ -113,11 +116,11 @@ pos procuraPeca(int **tab, pos ultPec, int l, int c)
     return ret;
 }
 
-/*A funcao recebe a pilha com os passos armazenados e os imprime na ordem
- * correta e no formato correto. */
+/*A funcao recebe um ponteiro para pilha com os passos armazenados e os 
+ * imprime na ordem correta e no formato correto. */
 void imprimePassos(pilha *p)
 {
-    int i, lp, cp;
+    int i, lp = 0, cp = 0;
     for (i = 0; i < p -> topo ; i++)
     {
         switch (p -> d[i])
@@ -127,7 +130,7 @@ void imprimePassos(pilha *p)
             case 1: lp = (p -> l[i]) + 2; cp = p -> c[i]; break;
             case 0: lp = p -> l[i]; cp = (p -> c[i]) - 2; break;
         }
-        printf("%d:%d-%d:%d\n", p -> c[i], p -> l[i], cp, lp);
+        printf("%d:%d-%d:%d\n", p -> l[i], p -> c[i], lp, cp);
     }
 }
 
@@ -157,6 +160,7 @@ int main()
 
     do
     { 
+        /*Checa se a matriz chegou ao estado final.*/
         acabou = 1;
         for (i = 0; i < l && acabou == 1; i++)
             for (j = 0; j < c && acabou == 1; j++)
@@ -180,7 +184,8 @@ int main()
                 
         if (mov.pos.l > -1)
             mov.dir = podeMover(tab, mov.pos, mov.dir, l, c);
-
+        
+        /*Verifica se eh um movimento valido.*/
         if (mov.dir < 4 && mov.dir >= 0)
         {
             move(tab, mov.pos, mov.dir);
@@ -193,9 +198,17 @@ int main()
     } while(!(mov.pos.l == -1 && mov.pos.c == -1) && acabou == 0);
     
     if (acabou == 0)
+    {
         printf("Impossivel\n");
+        destroiPilha(p);
+        destroiMatriz(tab, l);
+    }
     else if (acabou == 1)
+    {
         imprimePassos(p);
+        destroiPilha(p);
+        destroiMatriz(tab, l);
+    }
 
     return 0;
 }

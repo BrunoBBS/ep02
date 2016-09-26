@@ -17,10 +17,10 @@ int **criaMatriz(int l, int c)
     return mat;
 }
 
-void destroiMatriz(int **mat, int l, int c)
+void destroiMatriz(int **mat, int l)
 {
     int i;
-    for (i = 0; i < c; i++)
+    for (i = 0; i < l; i++)
         free(mat[i]);
     free(mat);
 }
