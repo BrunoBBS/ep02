@@ -5,92 +5,96 @@
 #include <stdlib.h>
 
 /*A funcao recebe a matriz tabuleiro preenchida de 0s e 1s, a posicao de uma
- * peca, a direcao do ultimo movimento (-1 caso seja o primeiro para aquela
- * peca) e o numeo de linhas e colunas da matriz e retorna o numero da posicao
- * da qual pode mover a partir da ultima direcao (retorna 4 caso nao haja 
- * movimenos possiveis).*/
+ * peca, a direcao do ultimo movimento (-1 caso seja o primeiro teste para 
+ * aquela peca) e o numero de linhas e colunas da matriz e retorna o numero 
+ * da posicao da qual pode mover a partir da ultima direcao (retorna 4 caso 
+ * nao haja movimenos possiveis).*/
 int podeMover(int **tab, pos peca, int ultdDir, int m, int n)
 {
     ultdDir += 1;
     switch (ultdDir)
     {
-        case 0: if (peca.l > 2 && (tab[peca.l - 2][peca.c]) == -1 
-                    && tab[peca.l - 1][peca.c] == 1)
-                    return 0;
-        case 1: if (peca.c < (n-2) && (tab[peca.l][peca.c + 2]) == -1 
-                    && tab[peca.l][peca.c + 1] == 1)
-                    return 1;
-        case 2: if (peca.l < (m-2) && (tab[peca.l + 2][peca.c]) == -1 
+        case 0: 
+            if (peca.c > 2 && (tab[peca.l][peca.c - 2]) == -1 
+                    && tab[peca.l][peca.c - 1] == 1)
+                    return 0; 
+        case 1: 
+            if (peca.l < (m-2) && (tab[peca.l + 2][peca.c]) == -1 
                     && tab[peca.l + 1][peca.c] == 1)
+                    return 1;
+        case 2: 
+            if (peca.c < (n-2) && (tab[peca.l][peca.c + 2]) == -1 
+                    && tab[peca.l][peca.c + 1] == 1)
                     return 2;
-        case 3: if (peca.c > 2 && (tab[peca.l][peca.c - 2]) == -1 
-                    && tab[peca.l][peca.c - 2] == 1)
+        case 3: 
+            if (peca.l > 2 && (tab[peca.l - 2][peca.c]) == -1 
+                    && tab[peca.l - 1][peca.c] == 1)
                     return 3;
+               
         default: return 4;
     }
 }
 
 /* A funcao recebe uma matriz com o tabuleiro preenchido de 0s e 1s, a posicao
- * da peca no qual sera feito o movimeto e a direcao da qual sera retirada a
- * peca do movimento e executa na matriz as substituicoes do movimeno.*/
+ * da peca com a qual sera feito o movimeto e a direcao para onde sera feita a
+ * jogada e executa na matriz as substituicoes do movimeno.*/
 void move(int **tab, pos peca, int dir)
 { 
     switch(dir)
     {
         case 0: tab[peca.l][peca.c] = -1; 
-                tab[peca.l - 2][peca.c] = 1;
-                tab[peca.l - 1][peca.c] = -1;
+                tab[peca.l][peca.c - 2] = 1;
+                tab[peca.l][peca.c - 1] = -1;
                 break;
         case 1: tab[peca.l][peca.c] = -1; 
-                tab[peca.l][peca.c + 2] = 1;
-                tab[peca.l][peca.c + 1] = -1;
-                break;
-        case 2: tab[peca.l][peca.c] = -1; 
                 tab[peca.l + 2][peca.c] = 1;
                 tab[peca.l + 1][peca.c] = -1;
                 break;
+        case 2: tab[peca.l][peca.c] = -1; 
+                tab[peca.l][peca.c + 2] = 1;
+                tab[peca.l][peca.c + 1] = -1;
+                break;
         case 3: tab[peca.l][peca.c] = -1; 
-                tab[peca.l][peca.c - 2] = 1;
-                tab[peca.l][peca.c - 1] = -1;
+                tab[peca.l - 2][peca.c] = 1;
+                tab[peca.l - 1][peca.c] = -1;
                 break;
     }
 }
 
  /*A funcao recebe o tabulero como uma matriz, a posicao do antiga peca e a
-  * direcao da qual foi feita  a jogada e desfaz o movimento.*/
+  * direcao para a qual foi feita  a jogada e desfaz o movimento.*/
 void desmove(int **tab, pos peca, int dir)
 {
     switch(dir)
     {
         case 0: tab[peca.l][peca.c] = 1; 
-                tab[peca.l - 2][peca.c] = -1;
-                tab[peca.l - 1][peca.c] = 1;
+                tab[peca.l][peca.c - 2] = -1;
+                tab[peca.l][peca.c - 1] = 1;
                 break;
         case 1: tab[peca.l][peca.c] = 1; 
-                tab[peca.l][peca.c + 2] = -1;
-                tab[peca.l][peca.c + 1] = 1;
-                break;
-        case 2: tab[peca.l][peca.c] = 1; 
                 tab[peca.l + 2][peca.c] = -1;
                 tab[peca.l + 1][peca.c] = 1;
                 break;
+        case 2: tab[peca.l][peca.c] = 1; 
+                tab[peca.l][peca.c + 2] = -1;
+                tab[peca.l][peca.c + 1] = 1;
+                break;
         case 3: tab[peca.l][peca.c] = 1; 
-                tab[peca.l][peca.c - 2] = -1;
-                tab[peca.l][peca.c - 1] = 1;
+                tab[peca.l - 2][peca.c] = -1;
+                tab[peca.l - 1][peca.c] = 1;
                 break;
     }
 }
 
 /*A funcao recebe uma matriz com o tabuleiro preenchido de 0s e 1s, a posicao
- * do ultimo peca encontrado (em caso de backtracking e (0,-1) caso seja a 
- * primeira procura), o numero de linhas e colunas da matriz tabuleiro e 
+ * da untima peca encontrada (em caso de backtracking) ou (0,-1) caso seja a 
+ * primeira procura, o numero de linhas e colunas da matriz tabuleiro e 
  * retorna uma posicao caso enconte um peca (-1) e retorna a posicao (-1,-1)
  * caso nao encontre um peca.*/
 pos procuraPeca(int **tab, pos ultPec, int l, int c)
 {
     int i, j, k = (ultPec.c + 1);
     pos ret;
-    printf("entrou no %d %d pra procurar peca\n", ultPec.l, (ultPec.c + 1));
     for (i = ultPec.l; i < l; i++)
     {
         for (j = k; j < c; j++)
@@ -118,24 +122,24 @@ void imprimePassos(pilha *p)
     {
         switch (p -> d[i])
         {
-            case 0: lp = (p -> l[i]) - 2; cp = p -> c[i]; break;
-            case 1: lp = p -> l[i]; cp = (p -> c[i]) + 2; break;
-            case 2: lp = (p -> l[i]) + 2; cp = p -> c[i]; break;
-            case 3: lp = p -> l[i]; cp = (p -> c[i]) - 2; break;
+            case 3: lp = (p -> l[i]) - 2; cp = p -> c[i]; break;
+            case 2: lp = p -> l[i]; cp = (p -> c[i]) + 2; break;
+            case 1: lp = (p -> l[i]) + 2; cp = p -> c[i]; break;
+            case 0: lp = p -> l[i]; cp = (p -> c[i]) - 2; break;
         }
-        printf("%d:%d-%d:%d", p -> l[i], p -> c[i], lp, cp);
+        printf("%d:%d-%d:%d\n", p -> c[i], p -> l[i], cp, lp);
     }
 }
 
+/*A funcao recebe as entradas do usuario e faz a simulacao, imprimindo, se for
+ * possivel, a sequencia de passos ou a palavra "Impossivel".*/
 int main()
 {
-    /*Falta implementar o backtrack e fazer ele voltar e tentar uma direcaoo
-     * nova antes de um passos novo.*/
-    int c, l, i, j, acabou = 0, back = 0;
+    int c, l, i, j, acabou = 0;
     int **tab, **final;
     pilha *p;
     movimento mov;
-    scanf("%d %d", &c, &l);
+    scanf("%d %d", &l, &c);
     p = criaPilha((l * c));
     tab = criaMatriz(l, c);
     final = criaMatriz(l, c);
@@ -153,13 +157,6 @@ int main()
 
     do
     { 
-        for (i = 0; i < l; i++)
-        {
-            for (j = 0; j < c; j++)
-                printf("%d\t",tab[i][j]);
-            printf("\n");
-        }
-        
         acabou = 1;
         for (i = 0; i < l && acabou == 1; i++)
             for (j = 0; j < c && acabou == 1; j++)
@@ -176,31 +173,22 @@ int main()
             /*~~BACKTRACK~~*/
             if (pilhaVazia(p) > 0)
             {
-                printf("desempilhou\n");
                 mov = desempilha(p); 
                 desmove(tab, mov.pos, mov.dir);
-                back = 1;
             }
         }
                 
         if (mov.pos.l > -1)
             mov.dir = podeMover(tab, mov.pos, mov.dir, l, c);
 
-        if (back == 1)
+        if (mov.dir < 4 && mov.dir >= 0)
         {
-            mov.pos.l = 0;
-            mov.pos.c = -1;
-            back = 0;
-        }
-
-        if (mov.dir < 4)
-        {
-            printf("Movendo...\n");
             move(tab, mov.pos, mov.dir);
             empilha(p,mov);
             mov.pos.c = -1;
             mov.pos.l = 0;
         }
+
 
     } while(!(mov.pos.l == -1 && mov.pos.c == -1) && acabou == 0);
     
