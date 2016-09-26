@@ -6,7 +6,6 @@
 
 int pilhaVazia(pilha  *p)
 {
-    printf("pilhavaxia");
     return p -> topo;
 }
 
